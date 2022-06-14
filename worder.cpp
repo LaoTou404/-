@@ -5,7 +5,7 @@ const string P[]={" ","-","/","(",")","==","<=","<","+","*",">","=",",",";","++"
 const int knum=17;
 const int pnum=16;
 
-//str ×ª10½øÖÆint 
+//str è½¬10è¿›åˆ¶int 
 int change(string ch)
 {
 	int si=ch.size();
@@ -18,8 +18,8 @@ int change(string ch)
 struct Token{
 
 
-	string kind;//ÖÖÊô,IÎª±êÊ¶·û,KÎª¹Ø¼ü×Ö,PÎª½ç·û,C1ÎªÕûÊı³£Êı(¿É16½øÖÆ),C2Îª¸¡µãĞÍ³£Êı,CTÎª×Ö·û³£Êı,STÎª×Ö·û´®³£Êı; 
-	int pos;//ÔÚ¸÷ÖÖ±íÀïµÄÏÂ±ê 
+	string kind;//ç§å±,Iä¸ºæ ‡è¯†ç¬¦,Kä¸ºå…³é”®å­—,Pä¸ºç•Œç¬¦,C1ä¸ºæ•´æ•°å¸¸æ•°(å¯16è¿›åˆ¶),C2ä¸ºæµ®ç‚¹å‹å¸¸æ•°,CTä¸ºå­—ç¬¦å¸¸æ•°,STä¸ºå­—ç¬¦ä¸²å¸¸æ•°; 
+	int pos;//åœ¨å„ç§è¡¨é‡Œçš„ä¸‹æ ‡ 
 		
 	int used;
 	void pt()
@@ -29,15 +29,15 @@ struct Token{
 	
 	Token()
 	{
-		used=0;//Ä¬ÈÏ±êÊ¶·ûÃ»ÓÃ++ 
+		used=0;//é»˜è®¤æ ‡è¯†ç¬¦æ²¡ç”¨++ 
 	}
 };
 
 struct Worder{
 	
-	//Ä¬ÈÏ²ÎÊı
-	int ignore_tips;//ºöÂÔÌáÊ¾ 
-	int detail;//ÏÔÊ¾´íÎóµÄÏêÏ¸ĞÅÏ¢ 
+	//é»˜è®¤å‚æ•°
+	int ignore_tips;//å¿½ç•¥æç¤º 
+	int detail;//æ˜¾ç¤ºé”™è¯¯çš„è¯¦ç»†ä¿¡æ¯ 
 
 	vector<string> I;
 	vector<int> C1;
@@ -46,7 +46,7 @@ struct Worder{
 	vector<string>ST; 
 	vector<Token>words;
 	
-	//»º³åÇø 
+	//ç¼“å†²åŒº 
 	string buf;
 	int be;
 	
@@ -55,17 +55,17 @@ struct Worder{
 	int getbuf()
 	{
 		string tmp;
-		if(!(cin>>tmp))return 0;//¶ÁÈëÊ§°Ü 
+		if(!(cin>>tmp))return 0;//è¯»å…¥å¤±è´¥ 
 		getline(cin,buf);
 		buf=tmp+buf; 
 		be=0;
-		return 1;//¶ÁÈë³É¹¦;	
+		return 1;//è¯»å…¥æˆåŠŸ;	
 	} 
 	
 	Worder()
 	{
-		ignore_tips=1;//Ä¬ÈÏºöÂÔtip 
-//		ignore_tips=0;//Ä¬ÈÏÏÔÊ¾tip 
+		ignore_tips=1;//é»˜è®¤å¿½ç•¥tip 
+//		ignore_tips=0;//é»˜è®¤æ˜¾ç¤ºtip 
 		I.clear();
 		C1.clear();
 		C2.clear();
@@ -82,9 +82,9 @@ struct Worder{
 		be=0;
 	}
 	
-	//¿ÉÒÔ°Ñ²åÈëµ¥¶À×öÒ»¸öº¯Êı,Èç¹ûÓĞ·µ»ØÎ»ÖÃ,Ã»ÓĞÔò²åÈëºó·µ»ØÎ»ÖÃ
+	//å¯ä»¥æŠŠæ’å…¥å•ç‹¬åšä¸€ä¸ªå‡½æ•°,å¦‚æœæœ‰è¿”å›ä½ç½®,æ²¡æœ‰åˆ™æ’å…¥åè¿”å›ä½ç½®
 	
-	//²åÈëC1
+	//æ’å…¥C1
 	int insC1(int x)
 	{
 		for(int i=1;i<C1.size();++i)
@@ -99,7 +99,7 @@ struct Worder{
 		return C1.size()-1;
 	} 
 
-	//²åÈëC2
+	//æ’å…¥C2
 	int insC2(string x)
 	{
 		for(int i=1;i<C2.size();++i)
@@ -114,26 +114,26 @@ struct Worder{
 		return C2.size()-1;
 	}
 	 	
-	//Ê¶±ğ½ç·û 
+	//è¯†åˆ«ç•Œç¬¦ 
 	int issym()
 	{
 		Token res;
 		res.kind="P";
 		
-		//Ì°À·Æ¥Åä,++ ÒªÔÚ+µÄÇ°Ãæ 
-		//½ç·ûÆ¥Åä°´ÕÕ´Ó×óÏòÓÒÌ°ĞÄÆ¥Åä×î³¤½ç·ûµÄ²ßÂÔ Ö¸:a+++++a Îª a++ ++ + a (ÀëÆ×) 
+		//è´ªå©ªåŒ¹é…,++ è¦åœ¨+çš„å‰é¢ 
+		//ç•Œç¬¦åŒ¹é…æŒ‰ç…§ä»å·¦å‘å³è´ªå¿ƒåŒ¹é…æœ€é•¿ç•Œç¬¦çš„ç­–ç•¥ æŒ‡:a+++++a ä¸º a++ ++ + a (ç¦»è°±) 
 		if(buf.substr(be,2)=="++")
 		{
-//			//++×óÓÒ¶¼Îª±êÊ¶·ûÔò±¨´í 
+//			//++å·¦å³éƒ½ä¸ºæ ‡è¯†ç¬¦åˆ™æŠ¥é”™ 
 //			if((be+2<buf.size()&&isalpha(buf[be+2]))&&(words.size()>=1&&words.back().kind=="I"))
 //			{
 //				cout<<"!! word error: <++> left and right is [I]  !!\n ";
 //				be++;
-//				//´íÎó´¦Àí:ºöÂÔ0xºÍºóÃæµÄ×Ö·û Ö±µ½ ¶Áµ½½ç·ûºÍ¿Õ¸ñÎªÖ¹ 	 
-//				return 2;//ËäÈ»´íÎóµ«ÈÔ¿É¼ÌĞø¡£ 
+//				//é”™è¯¯å¤„ç†:å¿½ç•¥0xå’Œåé¢çš„å­—ç¬¦ ç›´åˆ° è¯»åˆ°ç•Œç¬¦å’Œç©ºæ ¼ä¸ºæ­¢ 	 
+//				return 2;//è™½ç„¶é”™è¯¯ä½†ä»å¯ç»§ç»­ã€‚ 
 //			}
 //			
-//			//µ«ÊÇ++µÄ×ó»òÓÒÓ¦Îª±êÊ¶·û 
+//			//ä½†æ˜¯++çš„å·¦æˆ–å³åº”ä¸ºæ ‡è¯†ç¬¦ 
 //			if((be+2<buf.size()&&isalpha(buf[be+2])))
 //			{
 //				
@@ -142,7 +142,7 @@ struct Worder{
 //				be+=2;
 //				isname();
 //				words.back().used=1;
-//				return 1;//Ê¶±ğ³É¹¦			
+//				return 1;//è¯†åˆ«æˆåŠŸ			
 //			}
 //
 //			if((words.size()>=1&&words.back().kind=="I"&&words.back().used==0))
@@ -151,13 +151,13 @@ struct Worder{
 //				res.pos=14;
 //				words.push_back(res);
 //				be+=2;
-//				return 1;//Ê¶±ğ³É¹¦			
+//				return 1;//è¯†åˆ«æˆåŠŸ			
 //			}
 			
 			res.pos=14;
 			words.push_back(res);
 			be+=2;
-			return 1;//Ê¶±ğ³É¹¦					
+			return 1;//è¯†åˆ«æˆåŠŸ					
 			
 		} 
 		
@@ -168,11 +168,11 @@ struct Worder{
 				res.pos=i;
 				
 				
-				if(i)//¼´²»ÊÇ¶Áµ½¿Õ¸ñ 
+				if(i)//å³ä¸æ˜¯è¯»åˆ°ç©ºæ ¼ 
 				words.push_back(res);
 				
 				be+=P[i].size();
-				return 1;//Ê¶±ğ³É¹¦	
+				return 1;//è¯†åˆ«æˆåŠŸ	
 			}
 		}
 		
@@ -180,10 +180,10 @@ struct Worder{
 		return 0;
 	}
 	
-	//Ê¶±ğ16½øÖÆint
+	//è¯†åˆ«16è¿›åˆ¶int
 	int is16()
 	{
-		//²»ÓÃ¹Ü¸ºÊı,½«- ºÍ Õı³£Êı  ·Ö±ğ×÷Îªµ¥´Ê ,-ÎªÒ»Ä¿·û 
+		//ä¸ç”¨ç®¡è´Ÿæ•°,å°†- å’Œ æ­£å¸¸æ•°  åˆ†åˆ«ä½œä¸ºå•è¯ ,-ä¸ºä¸€ç›®ç¬¦ 
 		/*
 		int f=0;
 		if(buf[be]=='-'&&be+1<buf.size())
@@ -202,8 +202,8 @@ struct Worder{
 		if(be>=buf.size())
 		{
 //			cout<<"!! word error: after 0x isn't [0-9a-fA-F]  !!\n ";
-//			//´íÎó´¦Àí:ºöÂÔ0xºÍºóÃæµÄ×Ö·û Ö±µ½ ¶Áµ½½ç·ûºÍ¿Õ¸ñÎªÖ¹ 	 
-//			return 2;//ËäÈ»´íÎóµ«ÈÔ¿É¼ÌĞø¡£ 
+//			//é”™è¯¯å¤„ç†:å¿½ç•¥0xå’Œåé¢çš„å­—ç¬¦ ç›´åˆ° è¯»åˆ°ç•Œç¬¦å’Œç©ºæ ¼ä¸ºæ­¢ 	 
+//			return 2;//è™½ç„¶é”™è¯¯ä½†ä»å¯ç»§ç»­ã€‚ 
         
             cout<<"false";
             exit(0);
@@ -215,7 +215,7 @@ struct Worder{
 		}
 		 
 		int res=0;		
-		//ÕâÀïÔÊĞíÓĞÇ°µ¼0 && ²»Çø·Ö´óĞ¡Ğ´ 
+		//è¿™é‡Œå…è®¸æœ‰å‰å¯¼0 && ä¸åŒºåˆ†å¤§å°å†™ 
 		while(be<buf.size()&&(('0'<=buf[be]&&buf[be]<='9')||('a'<=buf[be]&&buf[be]<='f')||('A'<=buf[be]&&buf[be]<='F')))
 		{
 			if('0'<=buf[be]&&buf[be]<='9')
@@ -231,18 +231,18 @@ struct Worder{
 		}
  		
  		
-// 		//²»¹ÜÓĞÃ»ÓĞÏàÍ¬µÄ³£Êı,Ö±½ÓÀ©Õ¹ 
+// 		//ä¸ç®¡æœ‰æ²¡æœ‰ç›¸åŒçš„å¸¸æ•°,ç›´æ¥æ‰©å±• 
 // 		C1.push_back(res);
 //		Token tmp;
 //		tmp.kind="C1";
 //		tmp.pos=C1.size()-1;
 //		words.push_back(tmp);
-//		return 1;//Ê¶±ğ³É¹¦; ÔÊĞíºóÃæ½ÓÆäËû×ÖÄ¸ ,ºóÃæ³ö´íÊôÓÚÓï·¨·ÖÎöµÄ·¶³ë 
+//		return 1;//è¯†åˆ«æˆåŠŸ; å…è®¸åé¢æ¥å…¶ä»–å­—æ¯ ,åé¢å‡ºé”™å±äºè¯­æ³•åˆ†æçš„èŒƒç•´ 
 
 
 		Token tmp;
 		tmp.kind="C1";
-		//¿¼ÂÇ¿ÉÄÜÓĞÏàÍ¬µÄ³£Êı
+		//è€ƒè™‘å¯èƒ½æœ‰ç›¸åŒçš„å¸¸æ•°
 		for(int i=1;i<C1.size();++i)
 		{
 			if(C1[i]==res)
@@ -253,14 +253,14 @@ struct Worder{
 			}	
 		}
 		
- 		//À©Õ¹ 
+ 		//æ‰©å±• 
  		C1.push_back(res);
 		tmp.pos=C1.size()-1;
 		words.push_back(tmp);
-		return 1;//Ê¶±ğ³É¹¦; ÔÊĞíºóÃæ½ÓÆäËû×ÖÄ¸ ,ºóÃæ³ö´íÊôÓÚÓï·¨·ÖÎöµÄ·¶³ë  
+		return 1;//è¯†åˆ«æˆåŠŸ; å…è®¸åé¢æ¥å…¶ä»–å­—æ¯ ,åé¢å‡ºé”™å±äºè¯­æ³•åˆ†æçš„èŒƒç•´  
 	}
 	
-	//Ê¶±ğ×Ö·û
+	//è¯†åˆ«å­—ç¬¦
 	int ischar()
 	{
 		if(buf[be]!='\'')
@@ -291,7 +291,7 @@ struct Worder{
             exit(0);
 		}
 		
-//		//²»¹ÜÓĞÃ»ÓĞÏàÍ¬µÄ³£Êı,Ö±½ÓÀ©Õ¹
+//		//ä¸ç®¡æœ‰æ²¡æœ‰ç›¸åŒçš„å¸¸æ•°,ç›´æ¥æ‰©å±•
 //		Token tmp;
 //		tmp.kind="CT";
 //		CT.push_back(buf[be+1]);
@@ -302,7 +302,7 @@ struct Worder{
 
 		Token tmp;
 		tmp.kind="CT";
-		//¿¼ÂÇÓĞÏàÍ¬µÄ³£Êı
+		//è€ƒè™‘æœ‰ç›¸åŒçš„å¸¸æ•°
 		
 		for(int i=1;i<CT.size();++i)
 		{
@@ -323,7 +323,7 @@ struct Worder{
 		return 1;
 	} 
 	
-	//Ê¶±ğ×Ö·û´®
+	//è¯†åˆ«å­—ç¬¦ä¸²
 	int isstr()
 	{
 		if(buf[be]!='\"')
@@ -343,8 +343,8 @@ struct Worder{
 		}
 		
 		
-//		//²»¹ÜÓĞÃ»ÓĞÏàÍ¬µÄ³£Êı,Ö±½ÓÀ©Õ¹
-//		//·ÇÌ°À·Æ¥Åä		
+//		//ä¸ç®¡æœ‰æ²¡æœ‰ç›¸åŒçš„å¸¸æ•°,ç›´æ¥æ‰©å±•
+//		//éè´ªå©ªåŒ¹é…		
 //		Token tmp;
 //		tmp.kind="ST";
 //		ST.push_back(buf.substr(be+1,ed-be-1));
@@ -353,8 +353,8 @@ struct Worder{
 //		be=ed+1;
 //		return 1;
 
-		//¿¼ÂÇÓĞÏàÍ¬µÄ³£Êı
-		//·ÇÌ°À·Æ¥Åä		
+		//è€ƒè™‘æœ‰ç›¸åŒçš„å¸¸æ•°
+		//éè´ªå©ªåŒ¹é…		
 		Token tmp;
 		tmp.kind="ST";
 		
@@ -371,7 +371,7 @@ struct Worder{
 			}
 		}
 		
-		//À©Õ¹ST 
+		//æ‰©å±•ST 
 		ST.push_back(slice);
 		tmp.pos=ST.size()-1;
 		words.push_back(tmp);
@@ -379,7 +379,7 @@ struct Worder{
 		return 1;
 	}
 	
-	//Ê¶±ğ±êÊ¶·û ºÍ ¹Ø¼ü×Ö
+	//è¯†åˆ«æ ‡è¯†ç¬¦ å’Œ å…³é”®å­—
 	
 	int isname()
 	{
@@ -399,7 +399,7 @@ struct Worder{
 		
 		Token tmp;
 		
-		//Ê¶±ğÊÇ·ñÎª¹Ø¼ü×Ö 
+		//è¯†åˆ«æ˜¯å¦ä¸ºå…³é”®å­— 
 		tmp.kind="K";		
 		for(int i=1;i<=knum;++i)
 		{
@@ -411,9 +411,9 @@ struct Worder{
 			}
 		}
 		
-		//Ê¶±ğ±êÊ¶·û 
+		//è¯†åˆ«æ ‡è¯†ç¬¦ 
 		tmp.kind="I";
-		//²éÕÒÊÇ·ñÔÚ±íÖĞ 
+		//æŸ¥æ‰¾æ˜¯å¦åœ¨è¡¨ä¸­ 
 		int si=I.size();
 		for(int i=1;i<si;++i) 
 		{
@@ -426,7 +426,7 @@ struct Worder{
 			}
 		}
 		
-		//À©Õ¹I±í
+		//æ‰©å±•Iè¡¨
 		I.push_back(slice);
 		tmp.pos=I.size()-1;
 		words.push_back(tmp);
@@ -435,7 +435,7 @@ struct Worder{
  	}
 	 
 	 
-	//Ê¶±ğ10½øÖÆint ºÍfloat 	,ÔÊĞíÇ°µ¼0 
+	//è¯†åˆ«10è¿›åˆ¶int å’Œfloat 	,å…è®¸å‰å¯¼0 
 	int isnum()
 	{
 		if(!isdigit(buf[be]))
@@ -450,10 +450,10 @@ struct Worder{
 			ed++;
 		}
 		
-		//e²»Çø·Ö´óĞ¡Ğ´ 
+		//eä¸åŒºåˆ†å¤§å°å†™ 
 		if(ed>=buf.size()||(buf[ed]!='.'&&buf[ed]!='e'&&buf[ed]!='E'))
 		{
-			//ÊÇ10½øÖÆint
+			//æ˜¯10è¿›åˆ¶int
 			string slice=buf.substr(be,ed-be);
 			int x=change(slice);
 			Token tmp;
@@ -469,7 +469,7 @@ struct Worder{
 		if(buf[ed]=='.')
 		{
 			ed++;
-			//ÀàËÆ10. ¿É¿´×÷10.0¸¡µãÊı ,µ«ÕâÀïÑ¡Ôñ±¨´í 
+			//ç±»ä¼¼10. å¯çœ‹ä½œ10.0æµ®ç‚¹æ•° ,ä½†è¿™é‡Œé€‰æ‹©æŠ¥é”™ 
 			if(ed>=buf.size())
 			{
                 cout<<"false";
@@ -514,14 +514,14 @@ struct Worder{
 				ed++;
 			}			
 		}
-//		//²»¹ÜÓĞÃ»ÓĞÏàÍ¬µÄ³£Êı,Ö±½ÓÀ©Õ¹
+//		//ä¸ç®¡æœ‰æ²¡æœ‰ç›¸åŒçš„å¸¸æ•°,ç›´æ¥æ‰©å±•
 //		Token tmp;
 //		tmp.kind="C2";
 //		C2.push_back(buf.substr(be,ed-be));
 //		be=ed;
 //		tmp.pos=C2.size()-1;
 //		words.push_back(tmp);
-//		return 1;//Ê¶±ğ³É¹¦; ÔÊĞíºóÃæ½ÓÆäËû×ÖÄ¸ ,ºóÃæ³ö´íÊôÓÚÓï·¨·ÖÎöµÄ·¶³ë
+//		return 1;//è¯†åˆ«æˆåŠŸ; å…è®¸åé¢æ¥å…¶ä»–å­—æ¯ ,åé¢å‡ºé”™å±äºè¯­æ³•åˆ†æçš„èŒƒç•´
 		
 		
 		Token tmp;
@@ -529,7 +529,7 @@ struct Worder{
 		tmp.pos=insC2(buf.substr(be,ed-be));
 		words.push_back(tmp);
 		be=ed;
-		return 1;//Ê¶±ğ³É¹¦; ÔÊĞíºóÃæ½ÓÆäËû×ÖÄ¸ ,ºóÃæ³ö´íÊôÓÚÓï·¨·ÖÎöµÄ·¶³ë 		 
+		return 1;//è¯†åˆ«æˆåŠŸ; å…è®¸åé¢æ¥å…¶ä»–å­—æ¯ ,åé¢å‡ºé”™å±äºè¯­æ³•åˆ†æçš„èŒƒç•´ 		 
 		
 	}
 	
@@ -600,11 +600,11 @@ struct Worder{
 		}
 		
 		cout<<"!! word error: invalid char:<"<<buf[be]<<"> !!\n "; 
-		be++;//ËäÈ»´íÎóµ«ÈÔ¿É¼ÌĞø¡£			
+		be++;//è™½ç„¶é”™è¯¯ä½†ä»å¯ç»§ç»­ã€‚			
 	} 	
 	
 	
-	void pt()//Êä³öTokenĞòÁĞ 
+	void pt()//è¾“å‡ºTokenåºåˆ— 
 	{
 		cout<<"Token :";
 		for(int i=0;i<words.size();++i)
@@ -657,7 +657,7 @@ struct Worder{
 
 };
 
-//ÒÔÉÏÊÇ´Ê·¨·ÖÎöÆ÷Worder,µ÷ÓÃ ·½·¨ getword()»á·µ»ØÏÂÒ»¸öµ¥´ÊµÄtoken ,tokenµÄkind=="Finish"Ã»ÓĞÏÂÒ»¸öµ¥´ÊÁË 
+//ä»¥ä¸Šæ˜¯è¯æ³•åˆ†æå™¨Worder,è°ƒç”¨ æ–¹æ³• getword()ä¼šè¿”å›ä¸‹ä¸€ä¸ªå•è¯çš„token ,tokençš„kind=="Finish"æ²¡æœ‰ä¸‹ä¸€ä¸ªå•è¯äº† 
 //-----------------------------------------------------------------------------------------------------------------
 
 
@@ -668,5 +668,6 @@ int main()
 	Worder ws;
 	ws.run();
 	ws.pt();
+	//test
 }
 
